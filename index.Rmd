@@ -49,8 +49,16 @@ ggplot(disciplines, aes(discipline, n)) +
   geom_bar(stat = "identity")
 
 ggplot(disciplines, aes(discipline, proportion)) +
-  geom_bar(stat = "identity")
+  geom_bar(stat = "identity", fill = "darkgreen")
 
 ggplot(discipline.p, aes(item, proportion, fill = discipline)) +
   geom_col()
+
+enviro <- discipline.p %>%
+  filter(discipline == "environmental")
+
+
+  ggplot(enviro, aes(x = reorder(item, proportion), proportion)) + 
+  geom_col(fill = "darkgreen") +
+    labs(x = "sustainable development goal", y = "proportion of targets")
 ```
