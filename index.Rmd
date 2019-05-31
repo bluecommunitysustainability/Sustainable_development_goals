@@ -35,7 +35,8 @@ discipline.p <- left_join(count.data, item, by = "item")
   mutate(proportion = n/total)
 
 ggplot(count.data, aes(item, n, fill = discipline)) +
-  geom_bar(stat = "identity")
+  geom_bar(stat = "identity") +
+  labs(x = "sustainable development goal", fill = "")
 
 library(skimr)
 skim(count.data)
@@ -44,21 +45,19 @@ disciplines <- count.data %>%
   group_by(discipline) %>%
   summarise(n = sum(n), proportion = (n/168)*100)
   
-
-ggplot(disciplines, aes(discipline, n)) +
-  geom_bar(stat = "identity")
-
-ggplot(disciplines, aes(discipline, proportion)) +
-  geom_bar(stat = "identity", fill = "darkgreen")
+ggplot(disciplines, aes(reorder(discipline, -proportion), proportion)) +
+  geom_bar(stat = "identity", fill = "seagreen") +
+  labs(x = "sustainable development goal", y = "proportion of targets")
 
 ggplot(discipline.p, aes(item, proportion, fill = discipline)) +
-  geom_col()
+  geom_col() +
+  labs(x = "sustainable development goal", y = "proportion of targets", fill = "")
 
 enviro <- discipline.p %>%
   filter(discipline == "environmental")
 
 
   ggplot(enviro, aes(x = reorder(item, proportion), proportion)) + 
-  geom_col(fill = "darkgreen") +
+  geom_col(fill = "seagreen") +
     labs(x = "sustainable development goal", y = "proportion of targets")
 ```
