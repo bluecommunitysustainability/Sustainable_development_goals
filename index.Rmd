@@ -23,9 +23,27 @@ count.data <-  data %>%
   group_by(item, discipline) %>%
   summarise(n = n())
 
+discipline.p <- count.data %>%
+  group_by(discipline) %>%
+  mutate(proportion = n/sum(n))
+
 ggplot(count.data, aes(item, n, fill = discipline)) +
   geom_bar(stat = "identity")
 
 library(skimr)
 skim(count.data)
+
+disciplines <- count.data %>%
+  group_by(discipline) %>%
+  summarise(n = sum(n), proportion = (n/168)*100)
+  
+
+ggplot(disciplines, aes(discipline, n)) +
+  geom_bar(stat = "identity")
+
+ggplot(disciplines, aes(discipline, proportion)) +
+  geom_bar(stat = "identity")
+
+ggplot(discipline.p, aes(discipline, proportion)) +
+  geom_col()
 ```
